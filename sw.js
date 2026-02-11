@@ -1,10 +1,13 @@
+const BASE = "/colectas-pwa";
 const CACHE_NAME = "colectas-pwa-v1";
+
 const ASSETS = [
-  "./",
-  "./index.html",
-  "./app.js",
-  "./manifest.json",
-  "https://cdn.tailwindcss.com"
+  `${BASE}/`,
+  `${BASE}/index.html`,
+  `${BASE}/app.js`,
+  `${BASE}/manifest.json`,
+  `${BASE}/icons/icon-192.png`,
+  `${BASE}/icons/icon-512.png`
 ];
 
 self.addEventListener("install", (event) => {
@@ -45,3 +48,4 @@ self.addEventListener("fetch", (event) => {
     })()
   );
 });
+
