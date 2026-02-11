@@ -1,15 +1,17 @@
 {
   "name": "Colectas | Tickets & Control",
   "short_name": "Colectas",
-  "start_url": "/index.html",
-  "scope": "/",
+  "start_url": "/colectas-pwa/index.html",
+  "scope": "/colectas-pwa/",
   "display": "standalone",
   "background_color": "#0f172a",
   "theme_color": "#0ea5e9",
   "icons": [
-    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+    { "src": "/colectas-pwa/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/colectas-pwa/icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
   ]
 }
+
+
 
 
