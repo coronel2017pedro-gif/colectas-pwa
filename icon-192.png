@@ -1,0 +1,8 @@
+tickets-colectas-pwa/
+  index.html
+  app.js
+  sw.js
+  manifest.json
+  icons/
+    icon-192.png
+    icon-512.png
