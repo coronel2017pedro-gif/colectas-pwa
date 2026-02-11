@@ -809,7 +809,7 @@ async function bootstrap(){
   // SW register
   if("serviceWorker" in navigator){
     try{
-      await navigator.serviceWorker.register("./sw.js");
+      await navigator.serviceWorker.register("/colectas-pwa/sw.js");
     } catch (e) {
       // no bloquear operación
     }
@@ -881,3 +881,4 @@ document.addEventListener("DOMContentLoaded", async ()=>{
     }
   }, 1000);
 });
+
