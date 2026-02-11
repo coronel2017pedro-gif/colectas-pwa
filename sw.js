@@ -5,49 +5,41 @@ const ASSETS = [
   `${BASE}/`,
   `${BASE}/index.html`,
   `${BASE}/app.js`,
-  `${BASE}/manifest.json`,
-  `${BASE}/icons/icon-192.png`,
-  `${BASE}/icons/icon-512.png`
+  `${BASE}/manifest.json`
 ];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS)).catch(()=>{})
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS)).catch(() => {})
   );
   self.skipWaiting();
 });
 
 self.addEventListener("activate", (event) => {
-  event.waitUntil(
-    (async ()=>{
-      const keys = await caches.keys();
-      await Promise.all(keys.map(k => k !== CACHE_NAME ? caches.delete(k) : Promise.resolve()));
-      await self.clients.claim();
-    })()
-  );
+  event.waitUntil((async () => {
+    const keys = await caches.keys();
+    await Promise.all(keys.map(k => (k !== CACHE_NAME ? caches.delete(k) : Promise.resolve())));
+    await self.clients.claim();
+  })());
 });
 
 self.addEventListener("fetch", (event) => {
   const req = event.request;
-  event.respondWith(
-    (async ()=>{
-      const cached = await caches.match(req);
-      if(cached) return cached;
-      try{
-        const res = await fetch(req);
-        // Cachea GET exitosos
-        if(req.method === "GET" && res.status === 200){
-          const cache = await caches.open(CACHE_NAME);
-          cache.put(req, res.clone()).catch(()=>{});
-        }
-        return res;
-      } } catch {
-  const cache = await caches.open(CACHE_NAME);
-  const fallback = await cache.match(`${BASE}/index.html`);
-  return fallback || new Response("Offline", { status: 503 });
-}
-    })()
-  );
+
+  event.respondWith((async () => {
+    const cache = await caches.open(CACHE_NAME);
+    const cached = await cache.match(req);
+    if (cached) return cached;
+
+    try {
+      const res = await fetch(req);
+      if (req.method === "GET" && res && res.status === 200) {
+        cache.put(req, res.clone()).catch(() => {});
+      }
+      return res;
+    } catch (e) {
+      const fallback = await cache.match(`${BASE}/index.html`);
+      return fallback || new Response("Offline", { status: 503 });
+    }
+  })());
 });
-
-
