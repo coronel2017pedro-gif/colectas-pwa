@@ -41,11 +41,13 @@ self.addEventListener("fetch", (event) => {
           cache.put(req, res.clone()).catch(()=>{});
         }
         return res;
-      } catch {
-        // fallback básico
-        return cached || new Response("Offline", { status: 503 });
-      }
+      } } catch {
+  const cache = await caches.open(CACHE_NAME);
+  const fallback = await cache.match(`${BASE}/index.html`);
+  return fallback || new Response("Offline", { status: 503 });
+}
     })()
   );
 });
+
 
